@@ -23,7 +23,7 @@ This pattern was extracted within the American National Corpus (ANC) BioMed corp
 
 1:different_JJ;<FUNC_OR_STOP_WORD>|2:cells_NNS;expression_NN;<FUNC_OR_STOP_WORD>;other_JJ	[('patterns_NNS', '1471-2091-3-15.txt'), ('classes_NNS', '1471-2091-3-15.txt')]
 
-![Graphlet pattern](/docs/img/graphlet_pattern.jpg?raw=true)
+![Graphlet pattern](docs/img/graphlet_pattern.jpg?raw=true)
 
 
 # Installation

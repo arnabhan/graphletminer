@@ -73,15 +73,6 @@ def select_candidate_source_orbit(n_orbits):
     int
         a randomly selected number that designate an orbit.
     '''
-    #replicated_orbits_seq = []
-    #orbit_seq = list(range(0,n_orbits+1))
-    #replicas = list(reversed(range(1,n_orbits + 1)))
-    #replicas[0] = replicas[0] * 2
-    #for (x,y) in zip(orbit_seq,replicas):
-    #    replicated_orbits_seq.extend([x] * y)
-    #return random.choice(replicated_orbits_seq) 
-    #return random.choice(list(range(0,n_orbits+1)))
-    # if there are 3 orbits, then max orbit index is 2, for the first orbit, 0, is the center 
     return random.choice(list(range(0,n_orbits))) 
 
 def get_candidate_neigbors_on_next_orbit(orbit_source_nodes, all_graphlet_nodes, content_word_set, doc_graph):
