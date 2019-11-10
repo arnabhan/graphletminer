@@ -87,4 +87,4 @@ with open('E:\\Projects\\Research\\Data\\analysis\\reuters_gpatterns.tsv', 'w', 
 Nabhan A.R., Shaalan K. (2016) Keyword Identification Using Text Graphlet Patterns. In: Métais E., Meziane F., Saraee M., Sugumaran V., Vadera S. (eds) Natural Language Processing and Information Systems. NLDB 2016. Lecture Notes in Computer Science, vol 9612. Springer, Cham
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](./LICENSE)

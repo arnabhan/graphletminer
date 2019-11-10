@@ -78,9 +78,6 @@ def select_candidate_source_orbit(n_orbits):
 def get_candidate_neigbors_on_next_orbit(orbit_source_nodes, all_graphlet_nodes, content_word_set, doc_graph):
     ''' explores neighbors of source nodes of a givne orbit in a graphlet. The search process exploits the graph data structure of the document.
 
-****
-content_word_set can be obtained from doc_graph, this needs a change...
-****
     parameters
     ----------
     orbit_source_nodes : list
