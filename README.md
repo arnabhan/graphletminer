@@ -14,7 +14,7 @@ Nabhan A.R., Shaalan K. (2016) Keyword Identification Using Text Graphlet Patter
 ## Keywords appears in similar context
 The lexical and syntactic contexts of keywords can be recurring across multiple segements in text corpora. Text graphlet patterns can help identify these set of keywords that share the same pattern.
 
-## Data exaploration
+## Text genres analysis and data exploration
 Graphlet miner can be used for general purpose text genres analysis. It can identify recurring patterns in data that define the context in a which a set of words (at the center of graphlets) appear. Words flying in orbits around the center defines the context. The graphlet patterns can be used to compare different word usage across multile genres/corpora
 
 ## Text classification
@@ -150,7 +150,8 @@ with open('reuters_word_patterns.tsv', 'w',  encoding='utf-8') as filew:
 
 ```
 
-
+## More examples using document collections stored on local file system
+If you would like to analyze a corpus of your own, you can follow the using_custom_corpus.py under /examples folder. This examples show how to read a non-NLTK corpus. A PlainTextCorpusReader allows for loading and processing any text corpus organized in text files. In the using_custom_corpus example, a data collection of American National Corpus (ANC) is processed using Graphlet Miner.
 
 ## License
 [MIT](./LICENSE)
