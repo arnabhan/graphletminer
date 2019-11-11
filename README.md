@@ -8,6 +8,8 @@ Search for patterns starts with minimalistic graphlets with size=1 (with only ce
 ```bash
 python examples/reuters.py
 ```
+## Citation
+Nabhan A.R., Shaalan K. (2016) Keyword Identification Using Text Graphlet Patterns. In: Métais E., Meziane F., Saraee M., Sugumaran V., Vadera S. (eds) Natural Language Processing and Information Systems. NLDB 2016. Lecture Notes in Computer Science, vol 9612. Springer, Cham
 
 ## Keywords appears in similar context
 The lexical and syntactic contexts of keywords can be recurring across multiple segements in text corpora. Text graphlet patterns can help identify these set of keywords that share the same pattern.
@@ -23,7 +25,7 @@ This pattern was extracted within the American National Corpus (ANC) BioMed corp
 
 1:different_JJ;<FUNC_OR_STOP_WORD>|2:cells_NNS;expression_NN;<FUNC_OR_STOP_WORD>;other_JJ	[('patterns_NNS', '1471-2091-3-15.txt'), ('classes_NNS', '1471-2091-3-15.txt')]
 
-![Graphlet pattern](docs/img/graphlet_pattern.jpg?raw=true)
+![Graphlet pattern](docs\\img\\graphlet_pattern.jpg)
 
 
 # Installation
@@ -32,10 +34,11 @@ This pattern was extracted within the American National Corpus (ANC) BioMed corp
 python setup.py install
 ```
 
-# Example:
+# Examples:
 
 Graphlet miner needs a collection of documents to search for patterns within, in addition to a set of search parameters that can be effective in reducing running time. For instance, a minimum content word frequency threshold can be set. Only words above this minimum threshold will be added to graphlet patterns. A stack-based decoding is applied to explore pattens. A stack can contain graphlets of certain size. When set of pattens in stack_i are evaluated, new set of graphlets (with additonal nodes) are added stack_i+1. Number of patterns within each stack are pruned by a parameter that defines the minimum frequency of patterns in that stack. The PATTERN_FREQ_THRESHOLD_BY_STACK search parameter is a dictionary of the form: stack_id:min_pattern_freq. For example, this dictionary defines min pattern freq from stacks 0 through 10: {0:5,1:4,2:3,3:2,4:2,5:2,6:2,7:2,8:2,9:2,10:2},
 
+## Example 1: Using grpahlet mining with raw text
 
 ```python
 
@@ -75,7 +78,7 @@ doc_collection = dict([ (id,reuters.raw(id)) for id in reuters.fileids() ] )
 word_patterns = extract_graphlets(doc_collection, search_space_params)
 
 # persisting patterns to storage
-with open('E:\\Projects\\Research\\Data\\analysis\\reuters_gpatterns.tsv', 'w',  encoding='utf-8') as filew:
+with open('reuters_gpatterns.tsv', 'w',  encoding='utf-8') as filew:
     filew.write("OrbitPattern\tCenterWord\tWordDocIncidence\n")
     for graphlet_pattern in word_patterns.keys():
         if len(word_patterns[graphlet_pattern]) > 1:
@@ -83,8 +86,71 @@ with open('E:\\Projects\\Research\\Data\\analysis\\reuters_gpatterns.tsv', 'w', 
 
 ```
 
-## Citation
-Nabhan A.R., Shaalan K. (2016) Keyword Identification Using Text Graphlet Patterns. In: Métais E., Meziane F., Saraee M., Sugumaran V., Vadera S. (eds) Natural Language Processing and Information Systems. NLDB 2016. Lecture Notes in Computer Science, vol 9612. Springer, Cham
+## Example 2: Using grpahlet mining with part-of-speech tagging
+
+``` python
+
+# Example with part of speech tagging. Text corpus is NLTK movie reviews
+
+import sys
+import nltk
+from tqdm import tqdm
+from nltk.corpus import movie_reviews, reuters, brown, inaugural
+from nltk.tokenize import WordPunctTokenizer
+from nltk.tokenize import sent_tokenize
+from nltk import bigrams, word_tokenize, pos_tag 
+from nltk.corpus import stopwords
+from gminer.algorithms import extract_graphlets
+
+# settings and constants 
+USE_POS_TAGGING = True # False
+stopwordlist = list(set(stopwords.words('english')))
+
+search_space_params = {
+    'MAX_ORBIT_CAPACITY':10,
+    'GRAPHLET_TYPE' : 'PRUNED',
+    'PATTERN_FREQ_THRESHOLD_BY_STACK': {0:5,1:4,2:3,3:2,4:2,5:2,6:2,7:2,8:2,9:2,10:2},
+    'MAX_SEARCH_ITERATIONS': 10,
+    'PRUNED_STACK_SIZE': 100000,
+    'MIN_WORD_FREQ': 50,
+    'WORD_SELECTION_RATIO': 0.5,
+    #'CONTENT_WORD_REGEX_PATTERN': '^[A-z0-9]{3,}.*$', # raw word represenation
+    'CONTENT_WORD_REGEX_PATTERN': '^[A-z0-9]{3,}_[NJV].*$', # POS tagged word representation
+    'STOPWORD_LIST':stopwordlist
+}
+
+# loading corpus
+doc_collection = dict([ (id,movie_reviews.raw(id)) for id in movie_reviews.fileids() ] )
+
+if USE_POS_TAGGING:
+    print("Processing text docs for part of speech tagging...")
+    docids = list(doc_collection.keys())
+    for i in tqdm(range(len(docids))):
+        id = docids[i]
+        text = doc_collection[docids[i]]
+        line_seq = sent_tokenize(text.replace('_','-'))
+        pos_tagged_lines_seq = []
+        for line in line_seq:
+            token_seq = word_tokenize(line)
+            tag_seq = pos_tag(token_seq)
+            word_tag = [a.lower() + "_" + b for (a,b) in tag_seq]
+            pos_tagged_lines_seq.append(' '.join(word_tag))
+        doc_collection[id] = '\n'.join(pos_tagged_lines_seq)
+print("Done.")
+
+# pattern extraction
+word_patterns = extract_graphlets(doc_collection, search_space_params)
+
+# persisting patterns to storage
+with open('reuters_word_patterns.tsv', 'w',  encoding='utf-8') as filew:
+    filew.write("OrbitPattern\tCenterWord\tWordDocIncidence\n")
+    for graphlet_pattern in word_patterns.keys():
+        if len(word_patterns[graphlet_pattern]) > 1:
+            filew.write(graphlet_pattern + "\t" + str(list(set(list(word_patterns[graphlet_pattern])))) + '\n' )
+
+```
+
+
 
 ## License
 [MIT](./LICENSE)

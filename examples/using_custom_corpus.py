@@ -22,7 +22,7 @@ from nltk import bigrams, word_tokenize, pos_tag
 from nltk.corpus import stopwords
 
 
-root='E:\\Projects\\Research\\Data\\Corpora\\ANC\\OANC-1.0.1-UTF8\\OANC\\data\\'
+root='ANC\\OANC-1.0.1-UTF8\\OANC\\data\\'
 myreader= nltk.corpus.PlaintextCorpusReader(root + '\\written_2\\technical\\biomed', '.*\.txt') 
 doc_collection = dict([ (id,myreader.raw(id)) for id in myreader.fileids() ] )
 
@@ -64,12 +64,8 @@ print("Done.")
 
 word_patterns = extract_graphlets(doc_collection, search_space_params)
 
-""" for g in word_patterns.keys():
-    if len(g.split('|')) >= 2 and len(word_patterns[g]) >= 2:
-        print(g + "==>" + str(list(set(word_patterns[g])))) """
-
 # persisting patterns to storage
-with open('E:\\Projects\\Research\\Data\\analysis\\anc_biomed_word_patterns.tsv', 'w',  encoding='utf-8') as filew:
+with open('analysis\\anc_biomed_word_patterns.tsv', 'w',  encoding='utf-8') as filew:
     filew.write("OrbitPattern\tCenterWord\tWordDocIncidence\n")
     for graphlet_pattern in word_patterns.keys():
         if len(word_patterns[graphlet_pattern]) > 1:

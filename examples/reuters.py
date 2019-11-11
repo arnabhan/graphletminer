@@ -32,7 +32,7 @@ doc_collection = dict([ (id,reuters.raw(id)) for id in reuters.fileids() ] )
 word_patterns = extract_graphlets(doc_collection, search_space_params)
 
 # persisting patterns to storage
-with open('E:\\Projects\\Research\\Data\\analysis\\reuters_gpatterns.tsv', 'w',  encoding='utf-8') as filew:
+with open('reuters_gpatterns.tsv', 'w',  encoding='utf-8') as filew:
     filew.write("OrbitPattern\tCenterWord\tWordDocIncidence\n")
     for graphlet_pattern in word_patterns.keys():
         if len(word_patterns[graphlet_pattern]) > 1:

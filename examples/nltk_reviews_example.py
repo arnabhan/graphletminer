@@ -67,7 +67,7 @@ for g in word_patterns.keys():
         print(g + "==>" + str(list(set(word_patterns[g]))))
 
 # persisting patterns to storage
-with open('E:\\Projects\\Research\\Data\\analysis\\reuters_word_patterns.tsv', 'w',  encoding='utf-8') as filew:
+with open('reuters_word_patterns.tsv', 'w',  encoding='utf-8') as filew:
     filew.write("OrbitPattern\tCenterWord\tWordDocIncidence\n")
     for graphlet_pattern in word_patterns.keys():
         if len(word_patterns[graphlet_pattern]) > 1:
